@@ -1,8 +1,9 @@
 env:
     global:
+        - WHEELHOUSE_UPLOAD=1
         - REPO_DIR=chompack
         # Commit from your-project that you want to build
-        - BUILD_COMMIT=HEAD
+        - BUILD_COMMIT=v2.3.2-001
         - BUILD_DEPENDS=""
         - TEST_DEPENDS="pytest"
         - PLAT=x86_64
@@ -22,6 +23,49 @@ matrix:
     - python: 3.5
 
   include:
+    - os: linux
+      env: MB_PYTHON_VERSION=2.7
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=2.7
+        - UNICODE_WIDTH=16
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=2.7
+        - PLAT=i686
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=2.7
+        - PLAT=i686
+        - UNICODE_WIDTH=16
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=3.3
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=3.3
+        - PLAT=i686
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=3.4
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=3.4
+        - PLAT=i686
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=3.5
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=3.5
+        - PLAT=i686
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=3.6
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=3.6
+        - PLAT=i686
     - os: osx
       osx_image: xcode6.4
       language: generic
@@ -67,4 +111,4 @@ deploy:
   container: wheelhouse
   on:
     repo: cvxopt/chompack-wheels
-    tags: true
+    condition: $WHEELHOUSE_UPLOAD = 1
