@@ -1,0 +1,6 @@
+[submodule "chompack"]
+	path = chompack
+	url = https://github.com/cvxopt/chompack.git
+[submodule "multibuild"]
+	path = multibuild
+	url = https://github.com/matthew-brett/multibuild.git

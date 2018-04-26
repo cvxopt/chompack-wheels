@@ -1,0 +1,70 @@
+env:
+    global:
+        - REPO_DIR=chompack
+        # Commit from your-project that you want to build
+        - BUILD_COMMIT=HEAD
+        - BUILD_DEPENDS=""
+        - TEST_DEPENDS="pytest"
+        - PLAT=x86_64
+        - UNICODE_WIDTH=32
+
+language: python
+# The travis Python version is unrelated to the version we build and test
+# with.  This is set with the MB_PYTHON_VERSION variable.
+python: 3.5
+sudo: required
+dist: trusty
+services: docker
+
+matrix:
+  exclude:
+    # Exclude the default Python 3.5 build
+    - python: 3.5
+
+  include:
+    - os: osx
+      osx_image: xcode6.4
+      language: generic
+      env:
+        - MB_PYTHON_VERSION=2.7
+    - os: osx
+      osx_image: xcode6.4
+      language: generic
+      env:
+        - MB_PYTHON_VERSION=3.4
+    - os: osx
+      osx_image: xcode6.4
+      language: generic
+      env:
+        - MB_PYTHON_VERSION=3.5
+    - os: osx
+      osx_image: xcode6.4
+      language: generic
+      env:
+        - MB_PYTHON_VERSION=3.6
+
+before_install:
+    - source multibuild/common_utils.sh
+    - source multibuild/travis_steps.sh
+    - before_install
+
+install:
+    # Maybe get and clean and patch source
+    - clean_code $REPO_DIR $BUILD_COMMIT
+    - build_wheel $REPO_DIR $PLAT
+
+script:
+    - install_run $PLAT
+
+before_deploy: cd ${TRAVIS_BUILD_DIR}/wheelhouse
+deploy:
+  skip_cleanup: true
+  provider: cloudfiles
+  username: martinandersen
+  api_key:
+    secure: KA9d5gC17SrC5AxXiFlYuGb1fjLBUEw4NFVlJlbqaoHTMH6R68SHeKPK7SuEZtL/plrKbV7UokdI4jbF7nXlmeZgr1gyat7dKq9iOZiwp693dndno6oWeNJCh1m++u0uvVz9Nkil1zO0CmkKgBkSNmEvub6ua9NXyH4Nb0GfI9597M/aQl5yWAgeJmB6EfJWi7MkqKRh6WJTWSpBq+gfbgHPr0HHBpZlCcKH0UjOo7AwuTgyb0xvORafxOVdyeZRxTZ4gpVZy4NehwRIb2XRxN5jxVowbLixYW71d87fipWgUXN/Weqt4ySXt4tkjQquwetPaFiN8XMfsKCKe2qFAijgjAwp360Jm5Tfym4WnSWIfmv52SfthEq6blqnMjN+ndbNdD30vclIOc0HHDaFMwpgi/QAp2omwarPMGTw7gPyj44Xe1JFATMkRM27IdiWdNlGBPDEV/V13EQvaT+Zzq8hT3tFlp5pmh+k5CGhM5PVs2NhvB9zv3jyI5bdtctIMsQqpqVq+gVcF7kkGcJxVoPOXQPEeRGJVbD2yDUbjxCiD+Ms0dVPJgnMeRjv86WWhE4JRF0thyAoaCMXtjFAsWYuFBBNEbW//6dlPZUSTXdR5Seg6fTGoif8I4fn0ZYAn0v7dsKzYf3O2mvn/FOB0zEXgbW1dy/CDog5jl47nv4=
+  region: IAD
+  container: wheelhouse
+  on:
+    repo: cvxopt/chompack-wheels
+    tags: true
