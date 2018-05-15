@@ -9,7 +9,7 @@ environment:
     PYTHON_ARCH: "64"
     REPO_DIR: "chompack"
     PACKAGE_NAME: "chompack"
-    BUILD_COMMIT: "v2.3.2-001"
+    BUILD_COMMIT: "v2.3.2.post2"
     BUILD_DEPENDS: "mkl"
     TEST_DEPENDS: "pytest"
     CHOMPACK_INSTALL_REQUIRES: "cvxopt>=1.2.0;mkl"
