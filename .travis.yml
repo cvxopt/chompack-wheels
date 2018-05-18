@@ -40,13 +40,6 @@ matrix:
         - UNICODE_WIDTH=16
     - os: linux
       env:
-        - MB_PYTHON_VERSION=3.3
-    - os: linux
-      env:
-        - MB_PYTHON_VERSION=3.3
-        - PLAT=i686
-    - os: linux
-      env:
         - MB_PYTHON_VERSION=3.4
     - os: linux
       env:
@@ -67,22 +60,22 @@ matrix:
         - MB_PYTHON_VERSION=3.6
         - PLAT=i686
     - os: osx
-      osx_image: xcode6.4
+      osx_image: xcode8
       language: generic
       env:
         - MB_PYTHON_VERSION=2.7
     - os: osx
-      osx_image: xcode6.4
+      osx_image: xcode8
       language: generic
       env:
         - MB_PYTHON_VERSION=3.4
     - os: osx
-      osx_image: xcode6.4
+      osx_image: xcode8
       language: generic
       env:
         - MB_PYTHON_VERSION=3.5
     - os: osx
-      osx_image: xcode6.4
+      osx_image: xcode8
       language: generic
       env:
         - MB_PYTHON_VERSION=3.6
