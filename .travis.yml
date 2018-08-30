@@ -3,7 +3,7 @@ env:
         - WHEELHOUSE_UPLOAD=1
         - REPO_DIR=chompack
         # Commit from your-project that you want to build
-        - BUILD_COMMIT=v2.3.2.post2
+        - BUILD_COMMIT=v2.3.3
         - BUILD_DEPENDS=""
         - TEST_DEPENDS="pytest"
         - PLAT=x86_64
