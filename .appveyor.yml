@@ -1,22 +1,23 @@
 version: 1.0-{build}-{branch}
-image: Visual Studio 2017
+image: Visual Studio 2019
 init:
     - choco install wget
 
 environment:
   global:
-    PYTHON: C:\Miniconda36-x64
+    PYTHON: C:\Miniconda37-x64
     PYTHON_ARCH: "64"
     REPO_DIR: "chompack"
     PACKAGE_NAME: "chompack"
     BUILD_COMMIT: "v2.3.3"
-    BUILD_DEPENDS: "mkl"
-    TEST_DEPENDS: "pytest"
+    BUILD_DEPENDS: "mkl==2018.0.3"
+    TEST_DEPENDS: "pytest cvxopt"
     CHOMPACK_INSTALL_REQUIRES: "cvxopt>=1.2.0;mkl"
     CHOMPACK_BLAS_LIB: "mkl_rt"
     CHOMPACK_LAPACK_LIB: "mkl_rt"
 
   matrix:
+    - PYTHON_VERSION: "3.7"
     - PYTHON_VERSION: "3.6"
     - PYTHON_VERSION: "3.5"
     - PYTHON_VERSION: "3.4"
@@ -34,9 +35,9 @@ matrix:
 
 install:
     - if [%PYTHON_ARCH%]==[64] (
-        call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
+        call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars64.bat"
       ) else (
-        call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars32.bat"
+        call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars32.bat"
       )
 
     # Set up miniconda build environment
@@ -69,7 +70,7 @@ test_script:
     - activate test_env
 
     # Install from wheel
-    - pip install cvxopt mkl
+    - pip install mkl
     - pip install --no-index --find-links dist/ %PACKAGE_NAME%
 
     # Run tests
